@@ -1,28 +1,27 @@
-//дожидаемся полной загрузки страницы
+// Waiting full load page
 window.onload = function () {
 
-	// Все варианты выигрышей
-	var winSteck = [
-	[0, 1, 2],
-	[3, 4, 5],
-	[6, 7, 8],
-	[0, 3, 6],
-	[1, 4, 7],
-	[2, 5, 8],
-	[0, 4, 8],
-	[2, 4, 6]
+	// all win combo
+	var allWinCombinations = [
+		[0, 1, 2],
+		[3, 4, 5],
+		[6, 7, 8],
+		[0, 3, 6],
+		[1, 4, 7],
+		[2, 5, 8],
+		[0, 4, 8],
+		[2, 4, 6]
 	]
-	var goodMoves = [0, 2, 6, 8];
-	var badMoves = [1, 3, 5, 7];
+	var computerPriorityMoves = [0, 2, 6, 8],
+			computerNoPriorityMoves = [1, 3, 5, 7];
 
-	var player;
-	var computer;
-	var steps = 9;
-	var win = false;
-	var whoMoved;
-	var playerPoints = 0;
-	var computerPoints = 0;
-
+	var	player, // ?
+			computer,	// ?
+			numberOfFreeSteps = 9,
+			win = false,
+			whoMoved,
+			playerPoints = 0,
+			computerPoints = 0;
 
 	function getRandomArbitary(min, max){
 		return Math.round(Math.random() * (max - min) + min);
@@ -42,11 +41,11 @@ window.onload = function () {
 		var randomNum;
 		var elems = document.querySelectorAll('.sqr');
 		var randomCheck;
-		if(steps != 0){
+		if(numberOfFreeSteps != 0){
 			// Логика ходов компьютера
 			// Если было 0 или 1 ходов и центр не занят, 
 			// то нет опасности, можно ходить в центр
-			if(steps >= 8 && !elems[4].innerHTML){
+			if(numberOfFreeSteps >= 8 && !elems[4].innerHTML){
 				randomNum = getRandomArbitary(4, 4);
 				randomCheck = elems[4].innerHTML;
 			} else{
@@ -60,18 +59,18 @@ window.onload = function () {
 				var lastMove = 0; // свободные поля при
 				var lastMoveOnField = undefined;
 				// Берем каждый вариант победного комбо
-				for(var i = 0; i < winSteck.length; i++){
+				for(var i = 0; i < allWinCombinations.length; i++){
 					computerCanWin = false;
 					combo = 0; // Считает кол-во совпадений ходящего
 					lastMove = 0; // свободные поля при
 					lastMoveOnField = undefined;
 					// Берем каждый элемент победного комбо и ищем на доске Х или О ходящего
 					for(var j = 0; j <= 2; j++){
-						if(elems[winSteck[i][j]].innerHTML == computer){
+						if(elems[allWinCombinations[i][j]].innerHTML == computer){
 							combo += 1;
-						} else if(!elems[winSteck[i][j]].innerHTML && elems[winSteck[i][j]].innerHTML != player){
+						} else if(!elems[allWinCombinations[i][j]].innerHTML && elems[allWinCombinations[i][j]].innerHTML != player){
 							lastMove += 1;
-							lastMoveOnField = winSteck[i][j];
+							lastMoveOnField = allWinCombinations[i][j];
 						}
 						if(combo == 2 && lastMove == 1){
 							computerCanWin = true;
@@ -91,18 +90,18 @@ window.onload = function () {
 					var lastMove = 0; // свободные поля при
 					var lastMoveOnField = undefined;
 					// Берем каждый вариант победного комбо
-					for(var i = 0; i < winSteck.length; i++){
+					for(var i = 0; i < allWinCombinations.length; i++){
 						playerCanWin = false;
 						combo = 0; // Считает кол-во совпадений ходящего
 						lastMove = 0; // свободные поля при
 						lastMoveOnField = undefined;
 						// Берем каждый элемент победного комбо и ищем на доске Х или О ходящего
 						for(var j = 0; j <= 2; j++){
-							if(elems[winSteck[i][j]].innerHTML == player){
+							if(elems[allWinCombinations[i][j]].innerHTML == player){
 								combo += 1;
-							} else if(!elems[winSteck[i][j]].innerHTML && elems[winSteck[i][j]].innerHTML != computer){
+							} else if(!elems[allWinCombinations[i][j]].innerHTML && elems[allWinCombinations[i][j]].innerHTML != computer){
 								lastMove += 1;
-								lastMoveOnField = winSteck[i][j];
+								lastMoveOnField = allWinCombinations[i][j];
 							}
 							if(combo == 2 && lastMove == 1){
 								playerCanWin = true;
@@ -130,23 +129,23 @@ window.onload = function () {
 
 					// Начало. Этот блок редактирует занятость хороших и плохих ходов
 					var newGoodArr = [];
-					if(goodMoves.length != 0){
-						for(var i = 0; i < goodMoves.length; i++){
-							if(!elems[goodMoves[i]].innerHTML){
-								newGoodArr.push(goodMoves[i]);
+					if(computerPriorityMoves.length != 0){
+						for(var i = 0; i < computerPriorityMoves.length; i++){
+							if(!elems[computerPriorityMoves[i]].innerHTML){
+								newGoodArr.push(computerPriorityMoves[i]);
 							}
 						}
-						goodMoves = newGoodArr;
+						computerPriorityMoves = newGoodArr;
 					}else{
 						var newBadArr = [];
-						console.log(badMoves);
-						if(badMoves.length != 0){
-							for(var i = 0; i < badMoves.length; i++){
-								if(!elems[badMoves[i]].innerHTML){
-									newBadArr.push(badMoves[i]);
+						console.log(computerNoPriorityMoves);
+						if(computerNoPriorityMoves.length != 0){
+							for(var i = 0; i < computerNoPriorityMoves.length; i++){
+								if(!elems[computerNoPriorityMoves[i]].innerHTML){
+									newBadArr.push(computerNoPriorityMoves[i]);
 								}
 							}
-							badMoves = newBadArr;
+							computerNoPriorityMoves = newBadArr;
 						}
 					}
 					// Конец. Этот блок редактирует занятость хороших и плохих ходов
@@ -154,12 +153,12 @@ window.onload = function () {
 					// Ходим и вычеркиваем ход из хороших и плохих ходов,
 					// пока есть такая возможность
 					do {
-						if(goodMoves.length != 0){
-							var random = goodMoves[getRandomArbitary(0, goodMoves.length-1)];
+						if(computerPriorityMoves.length != 0){
+							var random = computerPriorityMoves[getRandomArbitary(0, computerPriorityMoves.length-1)];
 							randomNum = random;
 							randomCheck = elems[randomNum].innerHTML;
-						}else if(badMoves.length != 0){
-							var random = badMoves[getRandomArbitary(0, badMoves.length-1)];
+						}else if(computerNoPriorityMoves.length != 0){
+							var random = computerNoPriorityMoves[getRandomArbitary(0, computerNoPriorityMoves.length-1)];
 							randomNum = random;
 							randomCheck = elems[randomNum].innerHTML;
 						}else{
@@ -176,8 +175,8 @@ window.onload = function () {
 			}
 			checkWin();
 			if(win != true){
-				steps -= 1;
-				if(steps != 0){
+				numberOfFreeSteps -= 1;
+				if(numberOfFreeSteps != 0){
 					whoMoved = "player";
 				} else{
 					writeResult();
@@ -197,7 +196,7 @@ window.onload = function () {
 			who = computer;
 		}
 		var winLine = [];
-		winSteck.forEach(function(item){
+		allWinCombinations.forEach(function(item){
 			var checkArr = item;
 			item.forEach(function(checkArr){
 				var sqrs = document.getElementsByClassName('sqr');
@@ -237,7 +236,7 @@ window.onload = function () {
 						computerPoints_.innerHTML = computerPoints;
 					}
 					// Иначе если закончились свободные ходы, то написать ничью
-				} else if(steps == 0){
+				} else if(numberOfFreeSteps == 0){
 					writeResult();
 				}
 			})
@@ -265,9 +264,9 @@ window.onload = function () {
 		hidder.style.height = "0px";
 		win = false;
 		whoMoved = randomStartPlayer();
-		steps = 9;
-		goodMoves = [0, 2, 6, 8];
-		badMoves = [1, 3, 5, 7];
+		numberOfFreeSteps = 9;
+		computerPriorityMoves = [0, 2, 6, 8];
+		computerNoPriorityMoves = [1, 3, 5, 7];
 		startGame();
 	});
 
@@ -301,7 +300,7 @@ window.onload = function () {
 	var elems = document.querySelectorAll('.sqr')
 	elems.forEach(function(elem) {
 		elem.addEventListener('click', function() {
-			if(steps != 0){
+			if(numberOfFreeSteps != 0){
 				if(this.innerHTML == "" && whoMoved == "player"){
 					this.innerHTML = player;
 					if(player == "X"){
@@ -311,7 +310,7 @@ window.onload = function () {
 					}
 					checkWin();
 					if(win == false){
-						steps -= 1;
+						numberOfFreeSteps -= 1;
 						whoMoved = "computer";
 						setTimeout(enemyStep, 500);
 					}
