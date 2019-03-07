@@ -1,0 +1,118 @@
+*{
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body{
+	background-color: #000;
+	font-family: Candara;
+	background-image: url(bg.jpg);
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+.wrapper{
+	position: relative;
+	width: 300px;
+	margin: 0 auto;
+	margin-top: 20px;
+	text-align: center;
+}
+.tableWrapper{
+	width: 270px;
+	height: 270px;
+	margin: 0 auto;
+	margin-top: 15px;
+}
+.gameName{
+	padding-bottom: 5px;
+	color: #fff;
+	font-size: 32px;
+}
+.table{
+	display: block;
+	z-index: 1;
+	position: absolute;
+	width: 270px;
+	height: 270px;
+	background-color: #aab;
+	z-index: 0;
+}
+.hidder{
+	z-index: 1;
+	width: 0px;
+	height: 0px;
+	background-color: red;
+	opacity: 0;
+}
+.sqr{
+	border: 1px solid #778;
+	width: 90px;
+	height: 90px;
+	float: left;
+	font-size: 72px;
+	text-align: center;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+.sqr:hover{
+	background-color: #aad;
+	-webkit-transition: opacity .5s;
+	-o-transition: opacity .5s;
+	transition: opacity .5s;
+}
+
+.winField{
+	text-align: center;
+	color: #f99;
+	font-size: 24px;
+	margin-top: 10px;
+	font-style: italic;
+}
+
+.replay{
+	margin-top: 15px;
+	padding: 10px;
+	width: 170px;
+	background-color: transparent;
+	border: none;
+	border-top: 1px dotted #f99;
+	border-bottom: 1px dotted #f99;
+	color: #f99;
+	text-transform: uppercase;
+	letter-spacing: 5px;
+	outline: none;
+	cursor: pointer;
+}
+.replayHover:hover{
+	background-color: #939;
+	-webkit-transition: background .5s;
+	-o-transition: background .5s;
+	transition: background .5s;
+	border-top: 1px solid #f99;
+	border-bottom: 1px solid #f99;
+}
+
+.result{
+	text-align: left;
+	width: 270px;
+	margin: 0 auto;
+	margin-top: 25px;
+	color: #ddd;
+	border-top: 1px solid #fff;
+}
+.result h2{
+	text-align: center;
+}
+.result p{
+	font-size: 20px;
+}
+.result p .points{
+	float: right;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	<div class="wrapper">
+		<h1 class="gameName">Крестики-нолики</h1>
+		<div class="tableWrapper">
+			<div class="table" id="table">
+				<div class="sqr"></div>
+				<div class="sqr"></div>
+				<div class="sqr"></div>
+				<div class="sqr"></div>
+				<div class="sqr"></div>
+				<div class="sqr"></div>
+				<div class="sqr"></div>
+				<div class="sqr"></div>
+				<div class="sqr"></div>
+			</div>
+			<div class="hidder" id="hidder"></div>
+		</div>
+		<p class="winField" id="winField">Игра началась!</p>
+		<button class="replay" id="replay">Рестарт</button>
+
+		<div class="result">
+			<h2>Счёт</h2>
+			<p>Игрок: <span class="points" id="playerPoints"></span></p>
+			<p>Компьютер: <span class="points" id="computerPoints"></span></p>
+		</div>
+	</div>
+
+	<script src="code.js"></script>
+</body>
+</html>
