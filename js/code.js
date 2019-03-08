@@ -1,7 +1,6 @@
 // Waiting full load page
 window.onload = function () {
 
-	// all win combo
 	var allWinCombinations = [
 		[0, 1, 2],
 		[3, 4, 5],
@@ -13,30 +12,37 @@ window.onload = function () {
 		[2, 4, 6]
 	]
 	var computerPriorityMoves = [0, 2, 6, 8],
-			computerNoPriorityMoves = [1, 3, 5, 7];
+		computerNoPriorityMoves = [1, 3, 5, 7];
 
-	var	player, // ?
-			computer,	// ?
-			numberOfFreeSteps = 9,
-			win = false,
-			whoMoved,
-			playerPoints = 0,
-			computerPoints = 0;
+	var	player, // who is player "X" or "Y"
+		computer, // who is computer "X" or "Y"
+		numberOfFreeSteps = 9,
+		win = false,
+		whoMoved, // "player" or "computer"
+		playerPoints = 0,
+		computerPoints = 0;
 
 	function getRandomArbitary(min, max){
 		return Math.round(Math.random() * (max - min) + min);
 	}
 
-	// Рандомно выбирает кто будет ходить первым
-	var randomStartPlayer = function(){
-		// Если выпадает 0 то ходит компьютер, если 1 то игрок
-		if(getRandomArbitary(0, 1) == 0){
-			return "player";
+	function randomWhoMoveFirts(){
+		// If 0 - starting computer, else starting player
+		var whoStart = (getRandomArbitary(0, 1) == 0) ? "player" : "computer";
+		return whoStart;
+	}
+
+	function setWhoXwhoY(whoMoved){
+		if(whoMoved == "player"){
+			player = "X";
+			computer = "O";
 		} else{
-			return "computer";
+			player = "O";
+			computer = "X";
 		}
 	}
 
+	// logic of enemy steps
 	var enemyStep = function(){
 		var randomNum;
 		var elems = document.querySelectorAll('.sqr');
@@ -263,7 +269,7 @@ window.onload = function () {
 		hidder.style.width = "0px";
 		hidder.style.height = "0px";
 		win = false;
-		whoMoved = randomStartPlayer();
+		whoMoved = randomWhoMoveFirts();
 		numberOfFreeSteps = 9;
 		computerPriorityMoves = [0, 2, 6, 8];
 		computerNoPriorityMoves = [1, 3, 5, 7];
@@ -277,37 +283,30 @@ window.onload = function () {
 	computerPoints_.innerHTML = 0;
 
 	var startGame = function(){
-
+		// Reset field to one color (because when win, win line = win color)
 		var elems = document.querySelectorAll('.sqr')
 		elems.forEach(function(elem) {
 			elem.style.background = "#aab";
 		});
 
-		whoMoved = randomStartPlayer();
+		whoMoved = randomWhoMoveFirts(); // "player" or "computer"
 
-		if(whoMoved == "player"){
-			player = "X";
-			computer = "O";
-		} else{
-			player = "O";
-			computer = "X";
+		setWhoXwhoY(whoMoved);
+		if(computer == "X"){
 			setTimeout(enemyStep, 300);
 		}
 	}
 
 	startGame();
 
+	// make steps on field
 	var elems = document.querySelectorAll('.sqr')
 	elems.forEach(function(elem) {
 		elem.addEventListener('click', function() {
 			if(numberOfFreeSteps != 0){
 				if(this.innerHTML == "" && whoMoved == "player"){
 					this.innerHTML = player;
-					if(player == "X"){
-						this.style.color = "blue";
-					} else{
-						this.style.color = "red";
-					}
+					this.style.color = (player == "X") ? "blue" : "red";
 					checkWin();
 					if(win == false){
 						numberOfFreeSteps -= 1;
